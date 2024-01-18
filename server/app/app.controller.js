@@ -4,6 +4,7 @@ class AppController{
     create = async (req, res, next)=>{
         try{
             let payload = req.body;
+            payload.status = "assigned";
             let response = await appSvc.createTask(payload);
 
             res.json({
@@ -21,6 +22,74 @@ class AppController{
     listAll = async(req, res, next)=>{
         try{
             let filter = {};
+            if(req.query['search']){
+                filter = {
+                    ...filter,
+                    $or: [
+                        {
+                            task: new RegExp(req.query['search'], 'i')
+                        },
+                        {
+                            assignedTo: new RegExp(req.query['search'], 'i')
+                        },
+                        {
+                            priority: new RegExp(req.query['search'], 'i')
+                        },
+                        {
+                            status: new RegExp(req.query['search'], 'i')
+                        },
+                    ]
+                }
+            }
+            const response = await appSvc.readTasks(filter);
+            res.json({
+                result: response,
+                message: "Requested tasks fetched",
+                meta: null
+            })
+        }
+        catch(except){
+            console.log("appCtrl.listAll: ", except);
+            next(except);
+        }
+    }
+    listAllCompleted = async(req, res, next)=>{
+        try{
+            let filter = {status: "completed"};
+            if(req.query['search']){
+                filter = {
+                    ...filter,
+                    $or: [
+                        {
+                            task: new RegExp(req.query['search'], 'i')
+                        },
+                        {
+                            assignedTo: new RegExp(req.query['search'], 'i')
+                        },
+                        {
+                            priority: new RegExp(req.query['search'], 'i')
+                        },
+                        {
+                            status: new RegExp(req.query['search'], 'i')
+                        },
+                    ]
+                }
+            }
+            const response = await appSvc.readTasks(filter);
+            res.json({
+                result: response,
+                message: "Requested tasks fetched",
+                meta: null
+            })
+        }
+        catch(except){
+            console.log("appCtrl.listAll: ", except);
+            next(except);
+        }
+    }
+    listAllAssigned = async(req, res, next)=>{
+        try{
+            let filter = {status: "assigned"};
             if(req.query['search']){
                 filter = {
                     ...filter,
@@ -107,6 +176,22 @@ class AppController{
         }
         catch(except){
             console.log("appCtrl.deleteTask: ", except);
+            next(except);
+        }
+    }
+
+    markCompleted = async(req, res, next)=>{
+        try{
+            console.log("here");
+            const oldData = await appSvc.updateById(req.params.id, {status: "completed"});
+            res.json({
+                result: null,
+                message: "Task marked Completed",
+                meta: null
+            })
+        }
+        catch(except){
+            console.log("appCtrl.markCompleted: ", except);
             next(except);
         }
     }

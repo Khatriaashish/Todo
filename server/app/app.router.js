@@ -8,6 +8,14 @@ router.route("/")
 //to list all task
     .get(appCtrl.listAll)
 
+//to list all completed task
+router.get("/completed", appCtrl.listAllCompleted)
+//to list all assigned task
+router.get("/assigned", appCtrl.listAllAssigned)
+
+//to mark task completed
+router.put("/mark-completed/:id", appCtrl.markCompleted)
+
 router.route("/:id")
 //to get detail of one task
     .get(appCtrl.taskDetail)
@@ -15,5 +23,7 @@ router.route("/:id")
     .delete(appCtrl.deleteTask)
 //to update
     .put(appCtrl.updateTask)
+
+
 
 module.exports = router
