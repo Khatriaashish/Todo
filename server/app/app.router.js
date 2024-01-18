@@ -1,10 +1,12 @@
+const validateRequest = require('../middlewares/validate-request');
 const appCtrl = require('./app.controller');
+const { taskSchema } = require('./app.validator');
 
 const router = require('express').Router();
 
 router.route("/")
 //to create a task
-    .post(appCtrl.create)
+    .post(validateRequest(taskSchema), appCtrl.create)
 //to list all task
     .get(appCtrl.listAll)
 
@@ -14,7 +16,7 @@ router.get("/completed", appCtrl.listAllCompleted)
 router.get("/assigned", appCtrl.listAllAssigned)
 
 //to mark task completed
-router.put("/mark-completed/:id", appCtrl.markCompleted)
+router.put("/mark-completed/:id", validateRequest(taskSchema), appCtrl.markCompleted)
 
 router.route("/:id")
 //to get detail of one task

@@ -1,6 +1,8 @@
+import NavBarComponent from "../../component/NavBar/NavBar.component"
+
 const TodoUpdate = ()=>{
     return (<>
-    dflkm
+        <NavBarComponent/>
     </>)
 }
 

@@ -23,7 +23,7 @@ app.use((req, res, next)=>{
     res.status(404).json({
         result: null,
         message: "404 not found",
-        meta: null
+        meta: nul
     })
 })
 
