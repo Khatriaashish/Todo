@@ -16,6 +16,11 @@ const TodoSchemaDef = new mongoose.Schema({
         type: String,
         enum: ["assigned", "completed"],
         default: "assigned"
+    },
+    sortKey: {
+        type: String,
+        enum: ["a", "b"],
+        default: "a"
     }
 }, {
     timestamps: true,

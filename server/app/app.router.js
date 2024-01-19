@@ -9,6 +9,8 @@ router.route("/")
     .post(validateRequest(taskSchema), appCtrl.create)
 //to list all task
     .get(appCtrl.listAll)
+//to delete all data !!!danger
+    .delete(appCtrl.deleteAll);
 
 //to list all completed task
 router.get("/completed", appCtrl.listAllCompleted)
@@ -16,7 +18,7 @@ router.get("/completed", appCtrl.listAllCompleted)
 router.get("/assigned", appCtrl.listAllAssigned)
 
 //to mark task completed
-router.put("/mark-completed/:id", validateRequest(taskSchema), appCtrl.markCompleted)
+router.put("/mark-completed/:id", appCtrl.markCompleted)
 
 router.route("/:id")
 //to get detail of one task

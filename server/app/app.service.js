@@ -13,11 +13,21 @@ class AppService{
     }
     readTasks = async(filter={})=>{
         try{
-            let response = await TodoModel.find(filter).sort({_id: 'desc'});
+            let response = await TodoModel.find(filter).sort({sortKey: 1, _id: 'desc'});
             return response;
         }
         catch(except){
             console.log("appSvc.readTasks: ", except);
+            throw except
+        }
+    }
+    delete = async(id)=>{
+        try{
+            let response = await TodoModel.deleteMany();
+            return response;
+        }
+        catch(except){
+            console.log("appSvc.deleteAll: ", except);
             throw except
         }
     }
@@ -43,6 +53,7 @@ class AppService{
     }
     updateById = async(id, data)=>{
         try{
+            
             let response = await TodoModel.findByIdAndUpdate(id, data);
             return response;
         }

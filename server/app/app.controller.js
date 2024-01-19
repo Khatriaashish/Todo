@@ -5,6 +5,7 @@ class AppController{
         try{
             let payload = req.body;
             payload.status = "assigned";
+            payload.sortKey = "a";
             let response = await appSvc.createTask(payload);
 
             res.json({
@@ -53,6 +54,27 @@ class AppController{
             next(except);
         }
     }
+
+    deleteAll = async (req, res, next)=>{
+        try{
+            const response = await appSvc.delete();
+            if(response){
+                res.json({
+                    result: null,
+                    message: "All task cleared",
+                    meta: null
+                })
+            }
+            else{
+                next({code: 400, message: "No tasks available" })
+            }
+        }
+        catch(except){
+            console.log("appCtrl.deleteTask: ", except);
+            next(except);
+        }
+    }
+
     listAllCompleted = async(req, res, next)=>{
         try{
             let filter = {status: "completed"};
@@ -182,8 +204,7 @@ class AppController{
 
     markCompleted = async(req, res, next)=>{
         try{
-            console.log("here");
-            const oldData = await appSvc.updateById(req.params.id, {status: "completed"});
+            const oldData = await appSvc.updateById(req.params.id, {status: "completed", sortKey: "b"});
             res.json({
                 result: null,
                 message: "Task marked Completed",
