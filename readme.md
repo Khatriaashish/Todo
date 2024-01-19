@@ -13,5 +13,5 @@
 * At terminal path `{folder location}/TO-DO/client`, run `yarn run dev`
 * Browse app at [http://localhost:5173]
 
-> [!Tips]
+> [!TIP]
 > Postman documentation for api is available at [https://documenter.getpostman.com/view/30204645/2s9YsT4npY]
