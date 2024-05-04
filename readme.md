@@ -1,4 +1,4 @@
-# TODO List application
+# Taskboard application
 
 ## Server
 * Go inside server directory
